@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MD Osman Gani</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(#000428, #004e92);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .vault {
+      margin-top: 40px;
+      display: none;
+    }
+    input[type="password"] {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #fff;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+    .social a {
+      color: #fff;
+      text-decoration: none;
+      margin: 10px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>MD Osman Gani</h1>
+  <img src="https://graph.facebook.com/100077342815616/picture?type=large" alt="Profile Picture" width="150" style="border-radius: 50%;"/>
+  
+  <div class="social">
+    <a href="https://www.facebook.com/osmangani2346" target="_blank">Facebook</a>
+  </div>
+
+  <div class="vault-login">
+    <h2>Enter Vault</h2>
+    <input type="password" id="vaultPass" placeholder="Enter Vault Password" />
+    <button onclick="checkPassword()">Unlock</button>
+  </div>
+
+  <div class="vault" id="vaultBox">
+    <h3>My Private Vault</h3>
+    <p>Email: yourmail@example.com</p>
+    <p>Facebook Password: ********</p>
+    <p>Instagram: ********</p>
+    <p>Threads: ********</p>
+    <!-- আরও তথ্য এখানে রাখতে পারো -->
+  </div>
+
+  <script>
+    function checkPassword() {
+      const pass = document.getElementById("vaultPass").value;
+      if (pass === "23460") {
+        document.getElementById("vaultBox").style.display = "block";
+      } else {
+        alert("Wrong password!");
+      }
+    }
+  </script>
+</body>
+</html>
