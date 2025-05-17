@@ -1,75 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MD Osman Gani</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(#000428, #004e92);
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    .vault {
-      margin-top: 40px;
-      display: none;
-    }
-    input[type="password"] {
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #fff;
-      border: none;
-      color: #000;
-      font-weight: bold;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    .social a {
-      color: #fff;
-      text-decoration: none;
-      margin: 10px;
-      display: block;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Md Osman Gani's Personal Site</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    margin: 0; padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  header {
+    margin: 20px 0;
+    text-align: center;
+  }
+  #profile-pic {
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  input[type="file"] {
+    display: none;
+  }
+  a {
+    color: #ffdd57;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  #vault-section {
+    margin-top: 30px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+  }
+  #vault-login, #vault-content {
+    margin-top: 10px;
+  }
+  input[type="password"], textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    margin: 10px 0;
+    font-size: 1em;
+  }
+  button {
+    background: #ffdd57;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button:hover {
+    background: #e6c847;
+  }
+  textarea {
+    height: 150px;
+    resize: vertical;
+    font-family: monospace;
+  }
+</style>
 </head>
 <body>
-  <h1>MD Osman Gani</h1>
-  <img src="https://graph.facebook.com/100077342815616/picture?type=large" alt="Profile Picture" width="150" style="border-radius: 50%;"/>
-  
-  <div class="social">
-    <a href="https://www.facebook.com/osmangani2346" target="_blank">Facebook</a>
-  </div>
 
-  <div class="vault-login">
-    <h2>Enter Vault</h2>
-    <input type="password" id="vaultPass" placeholder="Enter Vault Password" />
-    <button onclick="checkPassword()">Unlock</button>
-  </div>
+<header>
+  <h1>Md Osman Gani</h1>
+  <label for="img-upload">
+    <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profile-pic" title="Click to change photo" />
+  </label>
+  <input type="file" id="img-upload" accept="image/*" />
+  <p><a href="https://www.facebook.com/osmangani2346" target="_blank" rel="noopener noreferrer">Facebook Profile</a></p>
+</header>
 
-  <div class="vault" id="vaultBox">
-    <h3>My Private Vault</h3>
-    <p>Email: yourmail@example.com</p>
-    <p>Facebook Password: ********</p>
-    <p>Instagram: ********</p>
-    <p>Threads: ********</p>
-    <!-- আরও তথ্য এখানে রাখতে পারো -->
+<section id="vault-section">
+  <h2>Personal Security Vault</h2>
+  <div id="vault-login">
+    <input type="password" id="vault-password" placeholder="Enter Vault Password" />
+    <button id="vault-login-btn">Unlock Vault</button>
   </div>
+  <div id="vault-content" style="display:none;">
+    <textarea id="vault-text" placeholder="Enter your private info here..."></textarea>
+    <br />
+    <button id="vault-save-btn">Save Info</button>
+    <button id="vault-lock-btn" style="margin-left:10px;">Lock Vault</button>
+  </div>
+</section>
 
-  <script>
-    function checkPassword() {
-      const pass = document.getElementById("vaultPass").value;
-      if (pass === "23460") {
-        document.getElementById("vaultBox").style.display = "block";
-      } else {
-        alert("Wrong password!");
-      }
+<script>
+  // Profile picture upload
+  const imgUpload = document.getElementById('img-upload');
+  const profilePic = document.getElementById('profile-pic');
+  imgUpload.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        profilePic.src = ev.target.result;
+        localStorage.setItem('profilePic', ev.target.result);
+      };
+      reader.readAsDataURL(file);
     }
-  </script>
+  });
+  // Load saved profile pic
+  window.onload = function() {
+    const savedPic = localStorage.getItem('profilePic');
+    if (savedPic) profilePic.src = savedPic;
+
+    const savedVaultData = localStorage.getItem('vaultData');
+    if (savedVaultData) {
+      document.getElementById('vault-text').value = savedVaultData;
+    }
+  };
+
+  // Vault lock/unlock logic
+  const vaultPassword = '23460';
+  const vaultLoginBtn = document.getElementById('vault-login-btn');
+  const vaultPasswordInput = document.getElementById('vault-password');
+  const vaultContent = document.getElementById('vault-content');
+
+  vaultLoginBtn.onclick = () => {
+    if (vaultPasswordInput.value === vaultPassword) {
+      vaultContent.style.display = 'block';
+      document.getElementById('vault-login').style.display = 'none';
+      vaultPasswordInput.value = '';
+    } else {
+      alert('Incorrect Password!');
+    }
+  };
+
+  // Save vault info
+  document.getElementById('vault-save-btn').onclick = () => {
+    const vaultText = document.getElementById('vault-text').value;
+    localStorage.setItem('vaultData', vaultText);
+    alert('Information saved locally.');
+  };
+
+  // Lock vault
+  document.getElementById('vault-lock-btn').onclick = () => {
+    vaultContent.style.display = 'none';
+    document.getElementById('vault-login').style.display = 'block';
+  };
+</script>
+
 </body>
 </html>
